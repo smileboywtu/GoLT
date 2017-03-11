@@ -41,6 +41,10 @@ func init() {
 }
 
 // member func
+
+// Get the CRC16 of the given bytes stream
+// Params seqence: bytes array
+// Return crc: crc16 code
 func GetCRC16(seqence []uint8) uint16 {
 	var crc uint16 = 0x0000
 
@@ -51,6 +55,8 @@ func GetCRC16(seqence []uint8) uint16 {
 	return crc
 }
 
+// Get the CRC byte table
+// Return array: array use to calculate crc
 func GetByteTable() []uint16 {
 	return _BYTE_TABLE[:]
 }

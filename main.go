@@ -15,5 +15,10 @@ func main() {
 	var seq = [...]uint8{
 		1, 2, 3, 4, 5, 6,
 	}
-	fmt.Printf("0x%X", lt.GetCRC16(seq[:]))
+	fmt.Printf("0x%X\n", lt.GetCRC16(seq[:]))
+
+	x := lt.GenRho(10)
+	fmt.Println(x, float32(34*x[0]))
+
+	fmt.Println(lt.GenRSD(10003, 0.5, 0.1))
 }
