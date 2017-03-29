@@ -3,6 +3,7 @@ package main
 import "./lt"
 import "time"
 import "fmt"
+import "reflect"
 
 func main() {
 
@@ -45,7 +46,7 @@ func main() {
 	if z, ok := lt.RestorePackage(c); ok {
 		fmt.Println(z.ShowSummery())
 		fmt.Println(z.GetBlockData())
+		fmt.Println(reflect.DeepEqual(y, z))
 	}
-
 
 }
