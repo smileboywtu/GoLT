@@ -160,6 +160,24 @@ func (packet *LTPacket) BuildPacket() []byte {
 /*
 	restore packet from byte array
  */
-//func (packet *LTPacket) RestorePackage(bytes []byte) LTPacket {
-//
-//}
+func RestorePackage(bytes []byte) (LTPacket, bool) {
+
+	crc16 := getDataInByteArray(bytes, CRC_DATA_OFFSET, FILE_SIZE_OFFSET-CRC_DATA_OFFSET)
+
+	// check crc16
+	if _crc := GetCRC16(bytes[FILE_SIZE_OFFSET:DEFAULT_HEADER_SIZE-FILE_SIZE_OFFSET]); uint16(crc16) != _crc {
+		return LTPacket{}, false
+	}
+
+	file_size := getDataInByteArray(bytes, FILE_SIZE_OFFSET, BLOCK_SIZE_OFFSET-FILE_SIZE_OFFSET)
+	block_size := getDataInByteArray(bytes, BLOCK_SIZE_OFFSET, BLOCK_SEED_OFFSET-BLOCK_SIZE_OFFSET)
+	block_seed := getDataInByteArray(bytes, BLOCK_SEED_OFFSET, BLOCK_DATA_OFFSET-BLOCK_SEED_OFFSET)
+	block_data := bytes[BLOCK_DATA_OFFSET:BLOCK_DATA_OFFSET+block_size]
+
+	return LTPacket{
+		file_size:  file_size,
+		block_size: uint16(block_size),
+		block_seed: block_seed,
+		block_data: block_data,
+	}, true
+}

@@ -39,6 +39,13 @@ func main() {
 
 	fmt.Println(y.ShowSummery())
 	y.SetBlockSize(3)
-	fmt.Println(y.BuildPacket())
+	c := y.BuildPacket()
+	fmt.Println(c)
+
+	if z, ok := lt.RestorePackage(c); ok {
+		fmt.Println(z.ShowSummery())
+		fmt.Println(z.GetBlockData())
+	}
+
 
 }
