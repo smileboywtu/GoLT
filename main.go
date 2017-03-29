@@ -21,4 +21,24 @@ func main() {
 	fmt.Println(x, float32(34*x[0]))
 
 	fmt.Println(lt.GenRSD(10003, 0.5, 0.1))
+
+	a := 0x12345
+	fmt.Println(uint8(a))
+
+	y := lt.InitPacket(500, 3, 55679813123, []byte{1, 2, 3})
+	fmt.Println(y.ShowSummery())
+	fmt.Println(y.GetFileSize())
+	y.SetFileSize(5)
+	fmt.Println(y.GetFileSize())
+
+	y.SetBlockData([]byte{1, 2, 3})
+	fmt.Println(y.GetBlockData())
+
+	y.SetBlockData([]byte{9, 6, 7})
+	fmt.Println(y.GetBlockData())
+
+	fmt.Println(y.ShowSummery())
+	y.SetBlockSize(3)
+	fmt.Println(y.BuildPacket())
+
 }
