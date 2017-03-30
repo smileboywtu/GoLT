@@ -52,18 +52,4 @@ func main() {
 	yy := lt.CreateGraphNode([]uint64{1, 2, 3, 4, 5, 2}, []byte{1, 2, 3})
 	fmt.Println(yy.GetSummery())
 
-	fmt.Println(1 ^ 2)
-
-	ddd := []int{1, 2, 3, }
-	for index, value := range ddd {
-		if value == 2 {
-			ddd = append(
-				ddd[:index],
-				ddd[index+1:]...,
-			)
-			break
-		}
-	}
-	fmt.Println(ddd)
-
 }

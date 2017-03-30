@@ -74,7 +74,7 @@ func (node *GraphNode) GetSummery() string {
 func (resolver *GraphResovler) AddBlock(blocks []uint64, data []byte) bool {
 	if len(blocks) == 1 {
 		eliminate := resolver.Resolve(blocks[0], data)
-		for eliminate {
+		for len(eliminate) > 0 {
 			current := eliminate[0]
 			eliminate = append(
 				eliminate,
@@ -130,7 +130,7 @@ func (resolver *GraphResovler) Resolve(block uint64, bytes []byte) ([]Tuple) {
 	copy(tmp, bytes)
 	resolver.resolved_block[block] = tmp
 
-	eliminated := new([]Tuple)
+	eliminated := []Tuple{}
 	if nodes, ok := resolver.graph[block]; ok {
 		delete(resolver.graph, block)
 		for _, item := range nodes {
@@ -150,8 +150,8 @@ func (resolver *GraphResovler) Resolve(block uint64, bytes []byte) ([]Tuple) {
 			}
 			// check reserve
 			if len(item.blocks) == 1 {
-				eliminated = &append(
-					*eliminated,
+				eliminated = append(
+					eliminated,
 					Tuple{
 						block: item.blocks[0],
 						bytes: item.bytes,
@@ -161,5 +161,5 @@ func (resolver *GraphResovler) Resolve(block uint64, bytes []byte) ([]Tuple) {
 		}
 	}
 
-	return *eliminated
+	return eliminated
 }
