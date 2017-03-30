@@ -93,10 +93,12 @@ func (packet *LTPacket) ShowSummery() string {
 		"packet summery:"+
 			"\n|%-10s|%10d|\n"+
 			"|%-10s|%10d|\n"+
-			"|%-10s|%10d|\n",
+			"|%-10s|%10d|\n" +
+			"|%-10s|%v|\n",
 		"file size", packet.file_size,
 		"block size", packet.block_size,
 		"block seed", packet.block_seed,
+		"block data", packet.block_data,
 	)
 }
 
