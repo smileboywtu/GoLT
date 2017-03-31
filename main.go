@@ -8,9 +8,10 @@ import "reflect"
 func main() {
 
 	fmt.Println(time.Now())
-	seed := uint32(time.Now().Unix())
-	lt.SetSeed(seed)
-	fmt.Printf("%d\n", lt.NextInt())
+	seed := uint64(time.Now().Unix())
+	prng := lt.PRNG{0, lt.PRNG_A, lt.PRNG_M}
+	prng.SetSeed(seed)
+	fmt.Printf("%d\n", prng.NextInt())
 
 	//fmt.Println(lt.GetByteTable())
 	var seq = [...]uint8{

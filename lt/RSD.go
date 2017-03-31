@@ -25,11 +25,11 @@ import "math"
 // rho(d) = 1 / d*(d-1) d=2, 3, 4, ..., K
 // :params K: number of source block
 // :return list: rho array list
-func GenRho(k int32) []float64 {
+func GenRho(k uint64) []float64 {
 
 	rho_set := make([]float64, k)
 
-	for i := int32(1); i <= k; i++ {
+	for i := uint64(1); i <= k; i++ {
 		if i == 1 {
 			rho_set[i-1] = float64(1) / float64(k)
 		} else {
@@ -44,12 +44,12 @@ func GenRho(k int32) []float64 {
 // :params K: number of source block
 // :params delta: delta is a bound on the probability that the decoding fails
 // :return list: list of tau
-func GenTau(s float64, k int32, delta float64) []float64 {
+func GenTau(s float64, k uint64, delta float64) []float64 {
 
 	tau_set := make([]float64, k)
-	var pivot int32 = int32(math.Floor(float64(k) / s))
+	pivot := uint64(math.Floor(float64(k) / s))
 
-	for i := int32(1); i <= k; i++ {
+	for i := uint64(1); i <= k; i++ {
 		if i < pivot {
 			tau_set[i-1] = s / float64(k*i)
 		} else if i == pivot {
@@ -77,7 +77,7 @@ func sumSlice(set []float64) float64 {
 // :params delta: delta is a bound on the probability that the decoding fails
 // :params c: c is a constant of order 1
 // :return list: list of mu
-func GenMu(k int32, delta float64, c float64) []float64 {
+func GenMu(k uint64, delta float64, c float64) []float64 {
 
 	mu_set := make([]float64, k)
 	var s float64 = c * math.Log(float64(k)/delta) * math.Sqrt(float64(k))
@@ -98,12 +98,12 @@ func GenMu(k int32, delta float64, c float64) []float64 {
 // :params delta: delta is a bound on the probability that the decoding fails
 // :params c: c is a constant of order 1
 // :return list: list of RSD
-func GenRSD(k int32, delta float64, c float64) []float64 {
+func GenRSD(k uint64, delta float64, c float64) []float64 {
 
 	rsd_set := make([]float64, k)
 	mu_set := GenMu(k, delta, c)
 
-	for i := int32(1); i <= k; i++ {
+	for i := uint64(1); i <= k; i++ {
 		rsd_set[i-1] = sumSlice(mu_set[:i])
 	}
 

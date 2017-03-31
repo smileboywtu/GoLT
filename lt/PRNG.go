@@ -1,33 +1,35 @@
 package lt
 
-// const params
+/*
+
+	Pseudo Random Number Generator
+
+ */
+
 const (
-	PRNG_A        = 16807
-	PRNG_M        = (1 << 31) - 1
-	PRNG_MAX_RAND = PRNG_M - 1
+	PRNG_A = 16807
+	PRNG_M = (1 << 31) - 1
 )
 
-// member
-var state uint32
-
-// member method
-func init() {
-	state = 2067261
+type PRNG struct {
+	State  uint64
+	PRNG_A uint64
+	PRNG_M uint64
 }
 
-func SetSeed(seed uint32) {
-	state = seed
+func (prng *PRNG) SetSeed(seed uint64) {
+	prng.State = seed
 }
 
-func GetStat() uint32 {
-	return state
+func (prng *PRNG) GetStat() uint64 {
+	return prng.State
 }
 
-func NextInt() uint32 {
-	state = state * PRNG_A % PRNG_M
-	return uint32(state)
+func (prng *PRNG) NextInt() uint64 {
+	prng.State = prng.State * prng.PRNG_A % prng.PRNG_M
+	return prng.State
 }
 
-func GetProbability() float32 {
-	return float32(NextInt()) / float32(PRNG_MAX_RAND)
+func (prng *PRNG) GetProbability() float64 {
+	return float64(prng.NextInt()) / float64(prng.PRNG_M-1)
 }
