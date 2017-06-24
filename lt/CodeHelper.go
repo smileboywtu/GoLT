@@ -1,5 +1,3 @@
-package lt
-
 /*
 
 	code helper to construct lt packet
@@ -9,6 +7,7 @@ package lt
 	Contact: smileboywtu@gmail.com
 
  */
+package lt
 
 type LTFactor struct {
 	K     uint64

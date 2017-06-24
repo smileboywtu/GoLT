@@ -1,7 +1,3 @@
-package lt
-
-import "fmt"
-
 /*
 
 	Resolve Graph
@@ -10,6 +6,9 @@ import "fmt"
 	Copyright: (c) chenbo<smileboywtu@gmail.com>
 
  */
+package lt
+
+import "fmt"
 
 type GraphNode struct {
 	blocks []uint64

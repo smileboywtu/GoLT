@@ -1,10 +1,9 @@
-package lt
-
 /*
 
 	Pseudo Random Number Generator
 
  */
+package lt
 
 const (
 	PRNG_A = 16807

@@ -1,5 +1,3 @@
-package lt
-
 /*
 
 	LT Packet Method helper for build LT Packet
@@ -8,6 +6,7 @@ package lt
 	Contact: smileboywtu@gmail.com
 
  */
+package lt
 
 import "fmt"
 
@@ -93,7 +92,7 @@ func (packet *LTPacket) ShowSummery() string {
 		"packet summery:"+
 			"\n|%-10s|%10d|\n"+
 			"|%-10s|%10d|\n"+
-			"|%-10s|%10d|\n" +
+			"|%-10s|%10d|\n"+
 			"|%-10s|%v|\n",
 		"file size", packet.file_size,
 		"block size", packet.block_size,

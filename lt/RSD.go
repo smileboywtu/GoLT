@@ -1,5 +1,3 @@
-package lt
-
 /*
 	The robust form of distribution is defined by adding an extra set
 	of values to the elements of mass function of the ideal soliton
@@ -18,6 +16,7 @@ package lt
 	additional spike at the value M.
 
 */
+package lt
 
 import "math"
 
