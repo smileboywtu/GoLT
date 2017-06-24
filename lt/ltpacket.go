@@ -8,7 +8,12 @@
  */
 package lt
 
-import "fmt"
+import (
+	"fmt"
+	"bytes"
+	"bufio"
+	"github.com/olekukonko/tablewriter"
+)
 
 const DEFAULT_HEADER_SIZE = 20
 const DEFAULT_BLOCK_SIZE = 80
@@ -88,17 +93,21 @@ func (packet *LTPacket) SetBlockData(bd []byte) {
 }
 
 func (packet *LTPacket) ShowSummery() string {
-	return fmt.Sprintf(
-		"packet summery:"+
-			"\n|%-10s|%10d|\n"+
-			"|%-10s|%10d|\n"+
-			"|%-10s|%10d|\n"+
-			"|%-10s|%v|\n",
-		"file size", packet.file_size,
-		"block size", packet.block_size,
-		"block seed", packet.block_seed,
-		"block data", packet.block_data,
-	)
+
+	var render_string bytes.Buffer
+	writer := bufio.NewWriter(&render_string)
+
+	table := tablewriter.NewWriter(writer)
+	table.SetHeader([]string{"packet summery", ""})
+	table.AppendBulk([][]string{
+		[]string{"file size", fmt.Sprintf("%d", packet.file_size)},
+		[]string{"block size", fmt.Sprintf("%d", packet.block_size)},
+		[]string{"block seed", fmt.Sprintf("%d", packet.block_seed)},
+		[]string{"block data", fmt.Sprintf("%v", packet.block_data)},
+	})
+	table.Render()
+	writer.Flush()
+	return render_string.String()
 }
 
 /*

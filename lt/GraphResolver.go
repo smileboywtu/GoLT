@@ -9,6 +9,11 @@
 package lt
 
 import "fmt"
+import (
+	"github.com/olekukonko/tablewriter"
+	"bytes"
+	"bufio"
+)
 
 type GraphNode struct {
 	blocks []uint64
@@ -57,12 +62,18 @@ func CreateGraphNode(blocks []uint64, data []byte) GraphNode {
 	show graph node summery
  */
 func (node *GraphNode) GetSummery() string {
-	return fmt.Sprintf(
-		"|%-10s|%v\n"+
-			"|%-10s|%v\n",
-		"blocks", node.blocks,
-		"bytes", node.bytes,
-	)
+
+	var render_string bytes.Buffer
+	writer := bufio.NewWriter(&render_string)
+
+	table := tablewriter.NewWriter(writer)
+	table.AppendBulk([][]string{
+		[]string{"blocks", fmt.Sprintf("%v", node.blocks)},
+		[]string{"bytes", fmt.Sprintf("%v", node.bytes)},
+	})
+	table.Render()
+	writer.Flush()
+	return render_string.String()
 }
 
 /*
