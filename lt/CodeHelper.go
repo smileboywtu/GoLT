@@ -9,12 +9,20 @@
  */
 package lt
 
+import "os"
+
 type LTFactor struct {
 	K     uint64
 	C     float64
 	Delta float64
 	CDF   []float64
 	PRNG  *PRNG
+}
+
+type RandomBlockGenerator struct {
+	filename   string
+	block_size uint64
+	src_bytes  []byte
 }
 
 /*
@@ -93,4 +101,29 @@ func (factor *LTFactor) GetSampleDegree() uint64 {
 	}
 
 	return i + 1
+}
+
+/*
+	Get source block random
+ */
+func (generator *RandomBlockGenerator) NewBlockGenerator() (string, bool) {
+
+	// read all the byte
+
+	f, err := os.Open(generator.filename)
+	if err {
+		return string(err), false
+	}
+	fi, err := f.Stat()
+	if err != nil {
+		return string(err), false
+	}
+
+	// read all bytes
+	generator.src_bytes = make([]byte, 0, fi.Size())
+	f.Read(generator.src_bytes)
+
+	// save to src blocks
+
+	return "", true
 }

@@ -13,7 +13,10 @@ import (
 	"github.com/olekukonko/tablewriter"
 	"bytes"
 	"bufio"
+	"sort"
 )
+
+type BlockRange []uint64
 
 type GraphNode struct {
 	blocks []uint64
@@ -35,6 +38,13 @@ type GraphResovler struct {
 func init() {
 
 }
+
+/*
+	func for sort uint64
+ */
+func (a BlockRange) Len() int           { return len(a) }
+func (a BlockRange) Swap(i, j int)      { a[i], a[j] = a[j], a[i] }
+func (a BlockRange) Less(i, j int) bool { return a[i] < a[j] }
 
 /*
     create graph node
@@ -172,4 +182,41 @@ func (resolver *GraphResovler) Resolve(block uint64, bytes []byte) ([]Tuple) {
 	}
 
 	return eliminated
+}
+
+/*
+	Get source content
+ */
+func (resolver *GraphResovler) GetSource() ([]byte, bool) {
+	// not done yet
+	if uint64(len(resolver.resolved_block)) < resolver.number_of_block {
+		return []byte{}, false
+	}
+
+	// get source
+	source := make([]byte, resolver.number_of_block*uint64(len(resolver.resolved_block[0]))|1)
+
+	keys := make(BlockRange, 0, len(resolver.resolved_block))
+	for key := range resolver.resolved_block {
+		keys = append(keys, key)
+	}
+
+	// sort keys
+	sort.Sort(keys)
+	for i := range keys {
+		source = append(source, resolver.resolved_block[uint64(i)]...)
+	}
+
+	// strip last '\0' byte
+	lsource := len(keys) - 1
+	for {
+		if source[lsource] {
+			break
+		} else {
+			lsource -= 1
+		}
+
+	}
+
+	return source[:lsource+1], true
 }

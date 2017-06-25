@@ -18,7 +18,6 @@ func main() {
 	prng.SetSeed(seed)
 	fmt.Printf("%d\n", prng.NextInt())
 
-
 	// GET CRC16
 	fmt.Println(strings.Repeat("=", 80))
 	fmt.Println("测试CRC16校验码：")
@@ -36,7 +35,7 @@ func main() {
 
 	// Pack Data
 	fmt.Println(strings.Repeat("=", 80))
-	fmt.Println("测试LT编解码：")
+	fmt.Println("测试LT包正反解：")
 	y := lt.InitPacket(500, 3, 55679813123, []byte{1, 2, 3})
 	fmt.Println(y.ShowSummery())
 	fmt.Println(y.GetFileSize())
@@ -61,6 +60,9 @@ func main() {
 		fmt.Println(reflect.DeepEqual(y, z))
 	}
 
+	// LT Code
+	fmt.Println(strings.Repeat("=", 80))
+	fmt.Println("测试LT编解码：")
 	yy := lt.CreateGraphNode([]uint64{1, 2, 3, 4, 5, 2}, []byte{1, 2, 3})
 	fmt.Println(yy.GetSummery())
 
