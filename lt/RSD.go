@@ -11,7 +11,7 @@
 	t(i) = ln(R/δ) / M ---------- (i = M)
 	t(i) = 0 -------------------- (i= M+1, ..., N)
 
-	While the ideal soliton distribution has a mode (or spike) at 1, the
+	While the ideal soliton distribution has a mode (or spike) at 1, th
 	effect of the extra component in the robust distribution is to add an
 	additional spike at the value M.
 
@@ -86,7 +86,7 @@ func GenMu(k uint64, delta float64, c float64) []float64 {
 
 	normalizer := sumSlice(rho_set) + sumSlice(tau_set)
 
-	for index, _ := range rho_set {
+	for index := range rho_set {
 		mu_set[index] = (rho_set[index] + tau_set[index]) / normalizer
 	}
 
