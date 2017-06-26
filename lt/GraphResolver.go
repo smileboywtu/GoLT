@@ -210,7 +210,7 @@ func (resolver *GraphResovler) GetSource() ([]byte, bool) {
 	// strip last '\0' byte
 	lsource := len(keys) - 1
 	for {
-		if source[lsource] {
+		if source[lsource] != byte(0) {
 			break
 		} else {
 			lsource -= 1

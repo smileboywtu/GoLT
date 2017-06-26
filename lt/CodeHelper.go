@@ -9,7 +9,10 @@
  */
 package lt
 
-import "os"
+import (
+	"os"
+	"math"
+)
 
 type LTFactor struct {
 	K     uint64
@@ -20,9 +23,13 @@ type LTFactor struct {
 }
 
 type RandomBlockGenerator struct {
-	filename   string
-	block_size uint64
-	src_bytes  []byte
+	file_name   string `need to supply when init struct`
+	file_size   int64
+	total_parts uint64
+	block_size  uint64 `need to supply when init struct`
+	src_bytes   []byte
+	src_blocks  map[uint64][]byte
+	factor      *LTFactor `need to supply when init struct`
 }
 
 /*
@@ -104,26 +111,51 @@ func (factor *LTFactor) GetSampleDegree() uint64 {
 }
 
 /*
-	Get source block random
+	Init src block generator
  */
-func (generator *RandomBlockGenerator) NewBlockGenerator() (string, bool) {
+func (generator *RandomBlockGenerator) InitBlockGenerator() (string, bool) {
 
 	// read all the byte
+	f, err := os.Open(generator.file_name)
+	defer f.Close()
 
-	f, err := os.Open(generator.filename)
-	if err {
-		return string(err), false
+	if err != nil {
+		return string(err.Error()), false
 	}
 	fi, err := f.Stat()
 	if err != nil {
-		return string(err), false
+		return string(err.Error()), false
 	}
 
 	// read all bytes
-	generator.src_bytes = make([]byte, 0, fi.Size())
+	generator.file_size = fi.Size()
+	generator.total_parts = uint64(math.Ceil(float64(generator.file_size) / float64(generator.block_size)))
+	generator.src_bytes = make([]byte, 0, generator.file_size)
 	f.Read(generator.src_bytes)
 
+	block_size := generator.block_size
+	limit, offset := uint64(0), uint64(0)
 	// save to src blocks
+	for i := uint64(0); i < generator.total_parts; i += 1 {
+		offset = i * block_size
+		generator.src_blocks[i] = make([]byte, block_size)
+		if i == generator.total_parts-1 {
+			// last part
+			limit -= 1
+		} else {
+			limit = offset + block_size
+
+		}
+		copy(generator.src_blocks[i][:], generator.src_bytes[offset:limit])
+	}
 
 	return "", true
+}
+
+/*
+	Get source block random
+ */
+func (generator *RandomBlockGenerator) GetNextPacket() []byte {
+	tmp := make([]byte, 2)
+	return tmp
 }

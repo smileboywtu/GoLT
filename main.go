@@ -66,4 +66,11 @@ func main() {
 	yy := lt.CreateGraphNode([]uint64{1, 2, 3, 4, 5, 2}, []byte{1, 2, 3})
 	fmt.Println(yy.GetSummery())
 
+	fmt.Println(strings.Repeat("=", 80))
+	fmt.Println("测试自由度：")
+	factor := lt.InitLtFactor(100, 0.1, 0.5, seed, lt.PRNG_A, lt.PRNG_M)
+	fmt.Println(factor.GetSrcBlocks())
+
+	fmt.Println(factor.CDF)
+	fmt.Println(lt.GenRho(100))
 }

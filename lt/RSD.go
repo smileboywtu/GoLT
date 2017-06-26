@@ -52,7 +52,7 @@ func GenTau(s float64, k uint64, delta float64) []float64 {
 		if i < pivot {
 			tau_set[i-1] = s / float64(k*i)
 		} else if i == pivot {
-			tau_set[i-1] = s / float64(k) * float64(math.Log(s/delta))
+			tau_set[i-1] = s * float64(math.Log(s/delta)/float64(k))
 		} else {
 			tau_set[i-1] = float64(0)
 		}
