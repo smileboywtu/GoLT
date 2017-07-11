@@ -12,6 +12,7 @@ package lt
 import (
 	"os"
 	"math"
+	"sort"
 )
 
 type LTFactor struct {
@@ -86,10 +87,13 @@ func (factor *LTFactor) GetSrcBlocks() []uint64 {
 		}
 	}
 
-	_blocks := make([]uint64, 0, len(blocks))
+	_blocks := make(BlockRange, 0, len(blocks))
 	for key := range blocks {
 		_blocks = append(_blocks, key)
 	}
+	// need to sort because blocks is a map
+	// has random order
+	sort.Sort(_blocks)
 	return _blocks
 }
 
