@@ -86,7 +86,7 @@ func (factor *LTFactor) GetSrcBlocks() []uint64 {
 		}
 	}
 
-	_blocks := make([]uint64, len(blocks))
+	_blocks := make([]uint64, 0, len(blocks))
 	for key := range blocks {
 		_blocks = append(_blocks, key)
 	}

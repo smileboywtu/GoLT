@@ -6,6 +6,7 @@ import "fmt"
 import (
 	"reflect"
 	"strings"
+	"math/rand"
 )
 
 func main() {
@@ -68,9 +69,17 @@ func main() {
 
 	fmt.Println(strings.Repeat("=", 80))
 	fmt.Println("测试自由度：")
-	factor := lt.InitLtFactor(100, 0.1, 0.5, seed, lt.PRNG_A, lt.PRNG_M)
+
+	s1 := rand.NewSource(time.Now().UnixNano())
+	r1 := rand.New(s1)
+	seed = uint64(r1.Uint32())
+	fmt.Println("当前随机种子: ", seed)
+	factor := lt.InitLtFactor(30000, 0.1, 0.5, seed, lt.PRNG_A, lt.PRNG_M)
 	fmt.Println(factor.GetSrcBlocks())
 
-	fmt.Println(factor.CDF)
+	fmt.Println(strings.Repeat("=", 80))
+	fmt.Println("测试RSD：")
+	fmt.Println(factor.GetSampleDegree())
 	fmt.Println(lt.GenRho(100))
+
 }

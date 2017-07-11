@@ -1,3 +1,6 @@
+/*
+	CRC check code
+ */
 package lt
 
 var _BYTE_TABLE = [...]uint16{
